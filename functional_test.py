@@ -2,11 +2,18 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
 import unittest
+import os.path
 
 class NewVisitorTest(unittest.TestCase):
 
     def setUp(self):
-        self.browser = webdriver.Firefox()
+        # We need to provide the absolute path where we want to put the
+        # ghostdriver log.  Can't put it in the current dir or watcher tests run
+        # forever
+        path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                            '../ghostdriver.log')
+
+        self.browser = webdriver.PhantomJS(service_log_path=path)
         self.browser.implicitly_wait(3)
 
     def tearDown(self):
