@@ -15,10 +15,10 @@ class NewVisitorTest(LiveServerTestCase):
         # We need to provide the absolute path where we want to put the
         # ghostdriver log.  Can't put it in the current dir or watcher tests run
         # forever
-        path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+        self.log_path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                             '../../ghostdriver.log')
 
-        self.browser = webdriver.PhantomJS(service_log_path=path)
+        self.browser = webdriver.PhantomJS(service_log_path=self.log_path)
         self.browser.implicitly_wait(3)
 
     def tearDown(self):
@@ -72,7 +72,7 @@ class NewVisitorTest(LiveServerTestCase):
         self.browser.quit()
 
         # A new user, Francis, comes along to the site homepage
-        self.browser = webdriver.PhantomJS(service_log_path=path)
+        self.browser = webdriver.PhantomJS(service_log_path=self.log_path)
         self.browser.get(self.live_server_url)
 
         # There is no sign of Edith's list
